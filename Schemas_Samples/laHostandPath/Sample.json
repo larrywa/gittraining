@@ -1,0 +1,3 @@
+[ { "$id": "4", "DnsDomain": "nunavut.local", "HostName": "kittahsx5fnfs22", "IsDomainJoined": true, "Type": "host", "MachineId": "9ad0418129b7718f7b611b7fa6bcd561fbbdf183", "MachineIdType": 3 }, 
+{ "$id": "5", "Directory": "c:\\users\\mtulurialik\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\pnmllhjmofmdelekogimjbeaogjiigoi\\1.0_0", "Name": "background.js", "Host": { "$ref": "4" }, "FileHashes": [ { "$id": "6", "Algorithm": "SHA1", "Value": "32b2f5f0ae2e9cc5201056fcb8c48f05964debdc", "Type": "filehash" }, 
+{ "$id": "7", "Algorithm": "SHA256", "Value": "c0ba16bb973d1ad743a3afe9ff32846fc69af1b000bbbe354686b5987ce227b0", "Type": "filehash" } ], "Type": "file" }, { "$ref": "6" }, { "$ref": "7" } ]

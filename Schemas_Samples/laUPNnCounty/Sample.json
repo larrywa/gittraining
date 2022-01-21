@@ -1,0 +1,4 @@
+[
+	{"$id":"3","Name":"FPicotte","UPNSuffix":"gov.nu.ca","AadTenantId":"72ebbe77-7a80-49bd-8767-a19d08ab746c","AadUserId":"9a1c75a5-2043-4b7a-999d-3c89d5222230","DisplayName":"Picotte, Francois","Type":"account"	},	
+	{"$id":"4","Address":"142.114.192.60","Location":{"CountryCode":"CA","State":"Ontario","City":"L'amable","Longitude":-77.78716,"Latitude":45.01147,"Asn":577},"Type":"ip"}
+]

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Customers>
+	<Customer>
+		<FirstName>Larry</FirstName>
+		<LastName>Wall</LastName>
+		<Address>7508 Surry Lane</Address>
+		<City>Indian Trail</City>
+		<State>NC</State>
+		<Zip>28079</Zip>		
+	</Customer>
+</Customers>

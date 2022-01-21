@@ -1,0 +1,118 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "yourInitials": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "variables": {
+    "storageAcctName": "[toLower(concat(toLower(parameters('yourInitials')),'serverless'))]",
+    "hostingPlanName": "[toLower(concat(toLower(parameters('yourInitials')),'-serverless'))]",
+    "functionAppName": "[toLower(concat(toLower(parameters('yourInitials')),'-serverless'))]",
+    "serviceBusNamespaceName": "[toLower(concat(toLower(parameters('yourInitials')),'-serverless'))]",
+    "location": "[resourceGroup().location]",
+    "sbVersion": "2018-01-01-preview",
+    "cosmosAcctName": "[concat(toLower(parameters('yourInitials')),'-serverless')]",
+    "serviceBusQueueName": "orderqueue"
+  },
+
+  "resources": [
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "kind": "GlobalDocumentDB",
+      "name": "[variables('cosmosAcctName')]",
+      "apiVersion": "2015-04-08",
+      "location": "[variables('location')]",
+      "tags": {
+        "defaultExperience": "DocumentDB"
+      },
+      "scale": null,
+      "properties": {
+        "databaseAccountOfferType": "Standard",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
+        "name": "[variables('cosmosAcctName')]"
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[variables('functionAppName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "functionapp",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAcctName'))]"
+      ],
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~2"
+            }
+          ]
+      }
+      }
+    },
+    {
+      "apiVersion": "2017-04-01",
+      "name": "[variables('serviceBusNamespaceName')]",
+      "type": "Microsoft.ServiceBus/namespaces",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {},
+      "resources": [
+        {
+          "apiVersion": "2017-04-01",
+          "name": "[variables('serviceBusQueueName')]",
+          "type": "Queues",
+          "dependsOn": [
+            "[concat('Microsoft.ServiceBus/namespaces/', variables('serviceBusNamespaceName'))]"
+          ],
+          "properties": {
+          },
+          "resources": [
+
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2015-04-01",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[variables('hostingPlanName')]",
+        "computeMode": "Dynamic",
+        "sku": "Dynamic"
+      }
+    },
+    {
+      "name": "[variables('storageAcctName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2018-07-01",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "dependsOn": [],
+      "tags": {
+        "displayName": "lwserverlessstore"
+      },
+      "kind": "StorageV2"
+    }
+  ],
+  "outputs": {}
+}

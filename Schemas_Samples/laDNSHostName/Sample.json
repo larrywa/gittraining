@@ -1,0 +1,11 @@
+[
+{"$id":"4","DnsDomain":"nunavut.local","HostName":"kivrijux1p5nh03","OSFamily":"Windows","OSVersion":"2004","Type":"host","MdatpDeviceId":"8c3450fdd3c6e443bed986f5e1d6f3c43eb5ac09","FQDN":"kivrijux1p5nh03.nunavut.local","AadDeviceId":"30626c27-aadb-4ae7-985c-f15d06f532cf","RiskScore":"High","HealthStatus":"Active","LastSeen":"2020-09-30T06:26:38.0070841Z","LastExternalIpAddress":"165.225.209.0","LastIpAddress":"172.25.32.1"},
+{"$id":"5","Address":"10.40.75.138","Type":"ip"},
+{"$id":"6","Address":"67.215.84.159","Type":"ip"},
+{"$id":"7","ProcessId":"22944","CreatedTimeUtc":"2020-09-30T10:46:35.190022Z","Type":"process"},
+{"$id":"8","Algorithm":"SHA1","Value":"77e63f4950821920e7569a7092c8033b87514967","Type":"filehash"},
+{"$id":"9","Algorithm":"SHA256","Value":"d2fa08ef73b5fb55e29ae09e8285df99354b5bb9d2c751f9a15bd3a171522a3c","Type":"filehash"},
+{"$id":"10","Directory":"C:\\Program Files (x86)\\Google\\Chrome\\Application","Name":"chrome.exe","FileHashes":[{"$ref":"8"},{"$ref":"9"}],"Type":"file"},
+{"$id":"11","ProcessId":"18324","CommandLine":"\"chrome.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --field-trial-handle=1564,9246378033989723771,8582176884901683858,131072 --lang=en-US --service-sandbox-type=network --enable-audio-service-sandbox --mojo-platform-channel-handle=1852 /prefetch:8","ImageFile":{"$ref":"10"},"ParentProcess":{"$ref":"7"},"CreatedTimeUtc":"2020-09-30T10:46:35.3885148Z","Type":"process"},
+{"$id":"12","Name":"MTatty3","NTDomain":"NUNAVUT","Sid":"S-1-5-21-609648063-689316932-1544898942-166956","AadUserId":"c8e2f4c4-e477-401a-994c-9b7b3e0ff785","IsDomainJoined":true,"Type":"account","UserPrincipalName":"mtatty3@gov.nu.ca"}
+]

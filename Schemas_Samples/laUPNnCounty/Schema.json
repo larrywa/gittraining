@@ -1,0 +1,60 @@
+Schema
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "$id": {
+                "type": "string"
+            },
+            "Name": {
+                "type": "string"
+            },
+            "UPNSuffix": {
+                "type": "string"
+            },
+            "AadTenantId": {
+                "type": "string"
+            },
+            "AadUserId": {
+                "type": "string"
+            },
+            "DisplayName": {
+                "type": "string"
+            },
+            "Type": {
+                "type": "string"
+            },
+            "Address": {
+                "type": "string"
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "CountryCode": {
+                        "type": "string"
+                    },
+                    "State": {
+                        "type": "string"
+                    },
+                    "City": {
+                        "type": "string"
+                    },
+                    "Longitude": {
+                        "type": "number"
+                    },
+                    "Latitude": {
+                        "type": "number"
+                    },
+                    "Asn": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "required": [
+            "$id",
+            "Type"
+        ]
+    }
+}

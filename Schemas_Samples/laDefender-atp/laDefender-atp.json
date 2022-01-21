@@ -1,0 +1,273 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "For_each": {
+                "actions": {
+                    "Condition": {
+                        "actions": {
+                            "Build_output_-_set_def-output": {
+                                "inputs": {
+                                    "name": "def-output",
+                                    "value": "@{concat('Category: ',variables('def-category'),' Alert: ',variables('def-alert'),' AlertId: ',variables('def-alertid'))}"
+                                },
+                                "runAfter": {
+                                    "Set_def-alertId_with_incidentId": [
+                                        "Succeeded"
+                                    ]
+                                },
+                                "type": "SetVariable"
+                            },
+                            "Set_def-alertId_with_incidentId": {
+                                "inputs": {
+                                    "name": "def-alertid",
+                                    "value": "@{items('For_each')?['incidentId']}"
+                                },
+                                "runAfter": {
+                                    "Show_the_category_value": [
+                                        "Succeeded"
+                                    ]
+                                },
+                                "type": "SetVariable"
+                            },
+                            "Set_def-alert_using_description": {
+                                "inputs": {
+                                    "name": "def-alert",
+                                    "value": "@items('For_each')?['description']"
+                                },
+                                "runAfter": {},
+                                "type": "SetVariable"
+                            },
+                            "Show_the_category_value": {
+                                "inputs": {
+                                    "name": "def-category",
+                                    "value": "@{item()['category']}"
+                                },
+                                "runAfter": {
+                                    "Set_def-alert_using_description": [
+                                        "Succeeded"
+                                    ]
+                                },
+                                "type": "SetVariable"
+                            }
+                        },
+                        "expression": {
+                            "and": [
+                                {
+                                    "equals": [
+                                        "@item()['category']",
+                                        "Malware"
+                                    ]
+                                }
+                            ]
+                        },
+                        "runAfter": {},
+                        "type": "If"
+                    }
+                },
+                "foreach": "@triggerBody()?['value']",
+                "runAfter": {
+                    "Initialize_def-output": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach"
+            },
+            "Init_def-alert": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "def-alert",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_def-category": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Init_def-alertid": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "def-alertid",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_def-alert": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Init_def-category": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "def-category",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Initialize_def-output": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "def-output",
+                            "type": "string",
+                            "value": "\"\""
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Init_def-alertid": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {},
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "@@odata.context": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "items": {
+                                    "properties": {
+                                        "aadTenantId": {
+                                            "type": "string"
+                                        },
+                                        "alertCreationTime": {
+                                            "type": "string"
+                                        },
+                                        "assignedTo": {},
+                                        "category": {
+                                            "type": "string"
+                                        },
+                                        "classification": {},
+                                        "comments": {
+                                            "type": "array"
+                                        },
+                                        "computerDnsName": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        },
+                                        "detectionSource": {
+                                            "type": "string"
+                                        },
+                                        "determination": {},
+                                        "evidence": {
+                                            "type": "array"
+                                        },
+                                        "firstEventTime": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "incidentId": {
+                                            "type": "integer"
+                                        },
+                                        "investigationId": {},
+                                        "investigationState": {
+                                            "type": "string"
+                                        },
+                                        "lastEventTime": {
+                                            "type": "string"
+                                        },
+                                        "lastUpdateTime": {
+                                            "type": "string"
+                                        },
+                                        "machineId": {
+                                            "type": "string"
+                                        },
+                                        "mitreTechniques": {
+                                            "type": "array"
+                                        },
+                                        "rbacGroupName": {},
+                                        "relatedUser": {
+                                            "properties": {
+                                                "domainName": {
+                                                    "type": "string"
+                                                },
+                                                "userName": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "resolvedTime": {},
+                                        "severity": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "threatFamilyName": {},
+                                        "threatName": {},
+                                        "title": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "incidentId",
+                                        "investigationId",
+                                        "assignedTo",
+                                        "severity",
+                                        "status",
+                                        "classification",
+                                        "determination",
+                                        "investigationState",
+                                        "detectionSource",
+                                        "category",
+                                        "threatFamilyName",
+                                        "title",
+                                        "description",
+                                        "alertCreationTime",
+                                        "firstEventTime",
+                                        "lastEventTime",
+                                        "lastUpdateTime",
+                                        "resolvedTime",
+                                        "machineId",
+                                        "computerDnsName",
+                                        "rbacGroupName",
+                                        "aadTenantId",
+                                        "threatName",
+                                        "mitreTechniques",
+                                        "relatedUser",
+                                        "comments",
+                                        "evidence"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {}
+}

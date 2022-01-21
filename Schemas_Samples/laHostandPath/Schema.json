@@ -1,0 +1,73 @@
+{
+    "items": {
+        "properties": {
+            "$id": {
+                "type": "string"
+            },
+            "$ref": {
+                "type": "string"
+            },
+            "Directory": {
+                "type": "string"
+            },
+            "DnsDomain": {
+                "type": "string"
+            },
+            "FileHashes": {
+                "items": {
+                    "properties": {
+                        "$id": {
+                            "type": "string"
+                        },
+                        "Algorithm": {
+                            "type": "string"
+                        },
+                        "Type": {
+                            "type": "string"
+                        },
+                        "Value": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "$id",
+                        "Algorithm",
+                        "Value",
+                        "Type"
+                    ],
+                    "type": "object"
+                },
+                "type": "array"
+            },
+            "Host": {
+                "properties": {
+                    "$ref": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "HostName": {
+                "type": "string"
+            },
+            "IsDomainJoined": {
+                "type": "boolean"
+            },
+            "MachineId": {
+                "type": "string"
+            },
+            "MachineIdType": {
+                "type": "integer"
+            },
+            "Name": {
+                "type": "string"
+            },
+            "Type": {
+                "type": "string"
+            }
+        },
+        "required": [],
+        "type": "object"
+    },
+    "type": "array"
+}

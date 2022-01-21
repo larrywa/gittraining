@@ -1,0 +1,111 @@
+Logic App Solutions
+
+How to Export
+Functions
+Workflow definition
+
+1. Determine what the incoming doc looks like by getting a sample. Any sample provided, you need to know if it comes in exactly like shown as far as order of fields, number of possible items in the array, if there are fields that are guaranteed to be sequential.
+2. Determine what the documents are used for.
+2. Create a logic app with an http receive trigger.
+3. In the first action of the workflow, upload a payload to generate the schema.
+4. View the schema in VS or VSCode to determine looping etc.
+5. Determine the fields required and how they are put together for the output.
+6. Try to come up with a pattern
+
+
+
+
+-------lwGetIP-------
+Source Doc
+[ { "$id": "3", "Address": "165.225.208.226", "Type": "ip" }, { "$id": "4", "Address": "165.225.209.8", "Type": "ip" }, { "$id": "5", "Address": "165.225.208.230", "Type": "ip" }, { "$id": "6", "Address": "165.225.208.247", "Type": "ip" }, { "$id": "7", "Address": "50.117.160.101", "Type": "ip" }, { "$id": "8", "Address": "165.225.208.242", "Type": "ip" } ]
+
+Review schema
+Request: Wanted to get a list of IP addresses, or the IP address in each element
+
+Points:
+Initialize a variable that is a string, show how to loop through and get each item
+Use a Select action and build another array based on the source array
+
+
+-------laHostandPath-------
+Request: Get the HostName and Directory path of each item. Also added how to check for zero an/or null.
+
+Source Doc
+[ { "$id": "4", "DnsDomain": "nunavut.local", "HostName": "kittahsx5fnfs22", "IsDomainJoined": true, "Type": "host", "MachineId": "9ad0418129b7718f7b611b7fa6bcd561fbbdf183", "MachineIdType": 3 }, { "$id": "5", "Directory": "c:\\users\\mtulurialik\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\pnmllhjmofmdelekogimjbeaogjiigoi\\1.0_0", "Name": "background.js", "Host": { "$ref": "4" }, "FileHashes": [ { "$id": "6", "Algorithm": "SHA1", "Value": "32b2f5f0ae2e9cc5201056fcb8c48f05964debdc", "Type": "filehash" }, { "$id": "7", "Algorithm": "SHA256", "Value": "c0ba16bb973d1ad743a3afe9ff32846fc69af1b000bbbe354686b5987ce227b0", "Type": "filehash" } ], "Type": "file" }, { "$ref": "6" }, { "$ref": "7" } ]
+ 
+Ideally we would like to understand the process of extracting the data from the above JSON string and as well as any additional functionality. 
+
+Note that in the document above, by looking at the schema, you can see 4 items, each one has different attributes. The items in the array will always be in the same order, and if you notice the HostName is only in element[0] and the Directory is only in element[1].
+
+To get the Directory you can use a function: triggerBody()[1]['Directory']
+To get the Hostname, you can use a function: triggerBody()[0]['HostName']
+
+This logic app also shows how to check for a null value in 3 ways:
+1. Check for an empty data array;
+	a. Create a 'condition'
+	b. Create a function, empty(variables('data')) is equal to true
+		1. If true, set the value of CheckForEmptyArray variable = true
+2. Create and initilize a variable named testValue. Set it to ""
+	a. Create a variable (int) CheckTestValueLength with function length(variables('testValue'))
+	b. Check CheckTestValueLength and if its < 2, its empty
+	c. Use a Terminate control with Failed status.
+3. Using a Compose function with a function, length(variables('testValue'))
+
+----------laUPNnCounty----------------------------------
+Number 1
+
+0
+{"$id":"3","Name":"FPicotte","UPNSuffix":"gov.nu.ca","AadTenantId":"72ebbe77-7a80-49bd-8767-a19d08ab746c","AadUserId":"9a1c75a5-2043-4b7a-999d-3c89d5222230","DisplayName":"Picotte, Francois","Type":"account"}
+
+(Need to combine Name and Upn suffix together in the next step and discard other data = fpicotte@gov.nu.ca)
+
+1
+{"$id":"4","Address":"142.114.192.60","Location":{"CountryCode":"CA","State":"Ontario","City":"L'amable","Longitude":-77.78716,"Latitude":45.01147,"Asn":577},"Type":"ip"}
+
+(Need to get Country Code = CA  and Satate = Ontario)
+
+Now with above both i would like to get username and Country and State together in next step.
+
+[
+	{"$id":"3","Name":"FPicotte","UPNSuffix":"gov.nu.ca","AadTenantId":"72ebbe77-7a80-49bd-8767-a19d08ab746c","AadUserId":"9a1c75a5-2043-4b7a-999d-3c89d5222230","DisplayName":"Picotte, Francois","Type":"account"
+	},	{"$id":"4","Address":"142.114.192.60","Location":{"CountryCode":"CA","State":"Ontario","City":"L'amable","Longitude":-77.78716,"Latitude":45.01147,"Asn":577},"Type":"ip"
+	}
+]
+
+
+
+Primary code - concat(triggerBody()?[0]?['Name'],'@',triggerBody()?[0]?['UPNSuffix'])
+concat(triggerBody()?[1]?['Location']?['CountryCode'],',',triggerBody()?[1]?['Location']?['State'])
+concat(variables('varName_UPNSuffix'),':',variables('varCountry_State'))
+
+
+-------laDNSHostname-----------------------------
+
+Requirements:
+1. Compose DnsDoman and hostname together like this: kivrijux1p5nh03.nunavut.local (element0)
+2. Get the directory path without the file hashes (element 10)
+3. Get the UserPrincipalName (element 12)
+
+
+From the above=  I need to compose together DnsDomain and hostname together in this format "kivrijux1p5nh03.nunavut.local"
+
+From id:10 the directory path with out file hashes
+
+Lastly i need userpricipalName in the next step.
+
+Here, I show how to use just plain item value retrieval, a for-each statement with conditional loop and a switch statement
+Make sure to talk about setting the concurrency on the for-each
+
+
+
+-------laDefender-atp-------
+
+Requirement:
+Get category, alert (descrition) and alert id (incident id)
+
+1. Import the payload schema into a logic app with http trigger
+2. Copy the schema out to Visual Studio and look through the sections to try to figure out where the elements are, are they strings, are they arrays etc.
+3. For laDefender-atp, customer wanted to get category, alert (description) and alert id (incident id).
+4. Initialize a few variables
+5. Do a for/each on 'value', what you will find is that you'll have 750 items
+6. The items are actually properties, so when you add a Set variable, it should let you pick items out of the properties

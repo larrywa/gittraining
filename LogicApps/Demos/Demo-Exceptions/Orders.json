@@ -1,0 +1,19 @@
+{
+   "Orders": [
+    {
+      "orderId": 1,
+      "customerName": "Customer 1",
+	  "productId": 1000,
+	  "itemCount": 1,
+	  "itemPrice": 1.55
+	 
+    },
+    {
+      "orderId": 2,
+      "customerName": "Customer 2",
+	  "productId": 1001,
+	  "itemCount": 1,
+	  "itemPrice": 12.95
+    }
+  ]
+}

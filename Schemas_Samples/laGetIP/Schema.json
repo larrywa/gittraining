@@ -1,0 +1,22 @@
+{
+    "items": {
+        "properties": {
+            "$id": {
+                "type": "string"
+            },
+            "Address": {
+                "type": "string"
+            },
+            "Type": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "$id",
+            "Address",
+            "Type"
+        ],
+        "type": "object"
+    },
+    "type": "array"
+}
